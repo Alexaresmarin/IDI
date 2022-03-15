@@ -46,6 +46,8 @@ int MyGLWidget::printOglError(const char file[], int line, const char func[])
     return retCode;
 }
 
+
+
 MyGLWidget::~MyGLWidget() {
 }
 
