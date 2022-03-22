@@ -59,10 +59,18 @@ void MyGLWidget::keyPressEvent(QKeyEvent* event)
   update();
 }
 
+void MyGLWidget::calculCentre(glm::vec3 min, glm::vec3 max) {
+  centre = glm::vec3(float((min[0] + max[0])/2), float((min[1] + max[1])/2), float((min[2] + max[2])/2));
+  radi = glm::distance(min, max)/2;
+  angle = glm::asin(float(radi)/float(radi*1.5f));
+}
+
 void MyGLWidget::initializeGL() {
     BL2GLWidget::initializeGL ();
-    projectTransform();
+    calculCentre(glm::vec3 (-2, -1, -2), glm::vec3 (2, 1, 2));
     viewTransform();
+    projectTransform();
+    
     glEnable (GL_DEPTH_TEST);
 }
 
@@ -77,9 +85,6 @@ void MyGLWidget::modelTransformTerra(){
   // Matriu de transformació de model
    // Matriu de transformació de model
   glm::mat4 transform (1.0);
-
-  transform = glm::translate (transform, glm::vec3 (0.0, -1.0, 0.0));
-  transform = glm::rotate (transform, float(M_PI/2), glm::vec3 (1.0,0.0,0.0));
   transform = glm::scale(transform, glm::vec3(escala));
   
   glUniformMatrix4fv(transLoc, 1, GL_FALSE, &transform[0][0]);
@@ -109,12 +114,12 @@ void MyGLWidget::creaBuffers ()
   // Dades de la caseta
   // Dos VBOs, un amb posició i l'altre amb color
   glm::vec3 terra[6] = {
-	glm::vec3( 2.0,  2.0,  0.0),
-	glm::vec3(-2.0,  2.0,  0.0),
-	glm::vec3(-2.0, -2.0,  0.0),
-	glm::vec3( 2.0,  2.0,  0.0),
-	glm::vec3(-2.0, -2.0,  0.0),
-	glm::vec3( 2.0, -2.0,  0.0)
+	glm::vec3( 2.0,  -1.0,  -2.0),
+	glm::vec3(-2.0,  -1.0,  -2.0),
+	glm::vec3(-2.0, -1.0,  2.0),
+	glm::vec3( 2.0,  -1.0,  -2.0),
+	glm::vec3(-2.0, -1.0,  2.0),
+	glm::vec3( 2.0, -1.0,  2.0)
   };
 
   glm::vec3 colorTerra[6] = {
@@ -123,7 +128,7 @@ void MyGLWidget::creaBuffers ()
   glm::vec3(0,1,0),
 	glm::vec3(1,0,0),
   glm::vec3(0,1,0),
-	glm::vec3(0,0,1)
+	glm::vec3(1,0,0)
   };
 
 
@@ -185,16 +190,33 @@ void MyGLWidget::carregaShaders() { // declarem-lo també en MyGLWidget.h
     viewLoc = glGetUniformLocation (program->programId(), "view");
 }
 
+void MyGLWidget::resizeGL (int w, int h) 
+{
+// Aquest codi és necessari únicament per a MACs amb pantalla retina.
+#ifdef __APPLE__
+  GLint vp[4];
+  glGetIntegerv (GL_VIEWPORT, vp);
+  ample = vp[2];
+  alt = vp[3];
+#else
+  ample = w;
+  alt = h;
+  ra = float(ample)/float(alt);
+  projectTransform();
+#endif
+}
+
+
 void MyGLWidget::viewTransform () {
 // glm::lookAt (OBS, VRP, UP)
-    glm::mat4 View = glm::lookAt (glm::vec3(0,0,1),glm::vec3(0,0,0), glm::vec3(0,1,0));
+    glm::mat4 View = glm::lookAt (glm::vec3(centre[0],centre[1],1.5f*radi), centre, glm::vec3(0,1,0));
     glUniformMatrix4fv (viewLoc, 1, GL_FALSE, &View[0][0]);
 }
 void MyGLWidget::projectTransform () {
     // glm::perspective (FOV en radians, ra window, znear, zfar)
-    glm::mat4 Proj = glm::perspective (float(M_PI)/2.0f, 1.0f, 0.4f, 3.0f);
+    glm::mat4 Proj = glm::perspective (glm::atan(float(tan(angle)/ra))*2.0f, ra, float(1.5*radi-radi), float(1.5f*radi+radi));
     glUniformMatrix4fv (projLoc, 1, GL_FALSE, &Proj[0][0]);
 }
 
 MyGLWidget::~MyGLWidget() {
-}
+} 

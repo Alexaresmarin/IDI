@@ -22,8 +22,10 @@ class MyGLWidget : public BL2GLWidget {
     virtual void paintGL (); 
     virtual void modelTransform();
     virtual void keyPressEvent (QKeyEvent *event);
+    virtual void resizeGL (int w, int h);
     void creaBuffers();
     void modelTransformTerra();
+    void calculCentre(glm::vec3 min, glm::vec3 max);
     GLuint projLoc;
     GLuint viewLoc;
     GLuint vpatLoc;
@@ -32,6 +34,7 @@ class MyGLWidget : public BL2GLWidget {
     GLuint colorTerraLoc;
     GLuint VAO;
     GLuint VAOTerra;
-    float rotacio = 0;
+    float rotacio = 0, radi, angle, hw, ra = 1.0f;
+    glm::vec3 centre;
     Model m; // un únic model
 };
