@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MyForm</class>
+ <widget class="QWidget" name="MyForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>541</width>
+    <height>316</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Atzar</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="MyPushButton" name="start">
+       <property name="text">
+        <string>&amp;Start</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="MyPushButton" name="reset">
+       <property name="text">
+        <string>&amp;Reset</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="MyPushButton" name="rectangle_1">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>100</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(124,124,124)</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="MyPushButton" name="rectangle_2">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>100</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(124,124,124)</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="MyPushButton" name="rectangle_3">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>100</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(124,124,124)</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Trios</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLCDNumber" name="lcdNumber"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="exit">
+       <property name="text">
+        <string>&amp;Exit</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyPushButton</class>
+   <extends>QPushButton</extends>
+   <header>MyPushButton.h</header>
+   <slots>
+    <signal>pinta()</signal>
+    <signal>set(int)</signal>
+    <slot>tractar_rectangle()</slot>
+    <slot>canviar_color_gris()</slot>
+    <slot>canviar_color_rec()</slot>
+    <slot>tractar_reset()</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>exit</sender>
+   <signal>clicked()</signal>
+   <receiver>MyForm</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>514</x>
+     <y>272</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rectangle_1</sender>
+   <signal>clicked()</signal>
+   <receiver>rectangle_1</receiver>
+   <slot>tractar_rectangle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>42</x>
+     <y>132</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>91</x>
+     <y>128</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rectangle_1</sender>
+   <signal>set(int)</signal>
+   <receiver>lcdNumber</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>93</x>
+     <y>164</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>94</x>
+     <y>220</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rectangle_2</sender>
+   <signal>clicked()</signal>
+   <receiver>rectangle_2</receiver>
+   <slot>tractar_rectangle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>226</x>
+     <y>147</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>226</x>
+     <y>109</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rectangle_2</sender>
+   <signal>set(int)</signal>
+   <receiver>lcdNumber</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>190</x>
+     <y>172</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>108</x>
+     <y>232</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rectangle_3</sender>
+   <signal>clicked()</signal>
+   <receiver>rectangle_3</receiver>
+   <slot>tractar_rectangle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>423</x>
+     <y>157</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>365</x>
+     <y>135</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rectangle_3</sender>
+   <signal>set(int)</signal>
+   <receiver>lcdNumber</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>397</x>
+     <y>169</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>101</x>
+     <y>232</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rectangle_1</sender>
+   <signal>pinta()</signal>
+   <receiver>rectangle_1</receiver>
+   <slot>canviar_color_rec()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>33</x>
+     <y>150</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>105</x>
+     <y>125</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rectangle_2</sender>
+   <signal>pinta()</signal>
+   <receiver>rectangle_2</receiver>
+   <slot>canviar_color_rec()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>206</x>
+     <y>123</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>217</x>
+     <y>128</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rectangle_3</sender>
+   <signal>pinta()</signal>
+   <receiver>rectangle_3</receiver>
+   <slot>canviar_color_rec()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>372</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>440</x>
+     <y>134</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>start</sender>
+   <signal>clicked()</signal>
+   <receiver>start</receiver>
+   <slot>tractar_rectangle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>55</x>
+     <y>51</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>59</x>
+     <y>46</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>start</sender>
+   <signal>pinta()</signal>
+   <receiver>rectangle_1</receiver>
+   <slot>canviar_color_rec()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>52</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>94</x>
+     <y>133</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>start</sender>
+   <signal>pinta()</signal>
+   <receiver>rectangle_2</receiver>
+   <slot>canviar_color_rec()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>89</x>
+     <y>66</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>201</x>
+     <y>118</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>start</sender>
+   <signal>pinta()</signal>
+   <receiver>rectangle_3</receiver>
+   <slot>canviar_color_rec()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>73</x>
+     <y>53</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>417</x>
+     <y>123</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>start</sender>
+   <signal>set(int)</signal>
+   <receiver>lcdNumber</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>68</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>109</x>
+     <y>226</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reset</sender>
+   <signal>clicked()</signal>
+   <receiver>reset</receiver>
+   <slot>tractar_reset()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>495</x>
+     <y>50</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>516</x>
+     <y>46</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reset</sender>
+   <signal>clicked()</signal>
+   <receiver>rectangle_1</receiver>
+   <slot>canviar_color_gris()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>470</x>
+     <y>58</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>94</x>
+     <y>130</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reset</sender>
+   <signal>clicked()</signal>
+   <receiver>rectangle_2</receiver>
+   <slot>canviar_color_gris()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>480</x>
+     <y>60</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>205</x>
+     <y>115</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reset</sender>
+   <signal>clicked()</signal>
+   <receiver>rectangle_3</receiver>
+   <slot>canviar_color_gris()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>515</x>
+     <y>50</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>425</x>
+     <y>126</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reset</sender>
+   <signal>set(int)</signal>
+   <receiver>lcdNumber</receiver>
+   <slot>display(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>503</x>
+     <y>56</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>111</x>
+     <y>234</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
