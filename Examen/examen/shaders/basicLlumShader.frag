@@ -56,10 +56,11 @@ vec3 Especular (vec3 NormSCO, vec3 L, vec4 vertSCO, vec3 colFocus)
 
 void main()
 {	
+    vec3 NM = normalize(normalSCO);
     vec3 fcolor;
 
     vec3 LCamera = normalize(posFocus - vertexSCO.xyz);
-    fcolor = Ambient() + Difus(normalSCO, LCamera, colFocus) + Especular(normalSCO , LCamera, vertexSCO, colFocus);
+    fcolor = Ambient() + Difus(NM, LCamera, colFocus) + Especular(NM , LCamera, vertexSCO, colFocus);
 
     FragColor = vec4(fcolor,1);
 }

@@ -8,6 +8,16 @@ class MyGLWidget:public ExamGLWidget
     MyGLWidget(QWidget *parent=0) : ExamGLWidget(parent) {}
     ~MyGLWidget();
 
+  public slots:
+    void activarOrtho();
+    void activarPers();
+    void AsignarPatCub(int);
+  
+  signals:
+    void ActivarPers();
+    void ActivarOrtho();
+    void AsignarPat(int);
+
   protected:
     virtual void initializeGL();
     virtual void paintGL ();

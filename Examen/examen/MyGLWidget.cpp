@@ -49,11 +49,36 @@ int MyGLWidget::printOglError(const char file[], int line, const char func[])
 MyGLWidget::~MyGLWidget() {
 }
 
+void MyGLWidget::activarOrtho() {
+  makeCurrent();  
+  camPlanta = true;
+  projectTransform();
+  viewTransform();
+  update();
+}
+
+void MyGLWidget::activarPers() {
+  makeCurrent();  
+  camPlanta = false;
+  projectTransform();
+  viewTransform();
+  update();
+}
+
+void MyGLWidget::AsignarPatCub(int x) {
+  makeCurrent();
+  esrota = x-1;
+  update();
+}
+
 void MyGLWidget::initializeGL ()
 {
   ExamGLWidget::initializeGL();
   pintaPat = false;
   esrota = 0;
+
+  emit ActivarPers();
+  emit AsignarPat(1);
 
   rotacio[0] = 0;
   rotacio[1] = 1;
@@ -119,7 +144,7 @@ void MyGLWidget::modelTransformPatricio ()    // Mètode que has de modificar
   TG = glm::rotate(glm::mat4(1.f), angles[rotacio[esrota]], glm::vec3(0, 1, 0));
   TG = glm::translate(TG, glm::vec3 (5, 0, 0));
   TG = glm::scale(TG, glm::vec3 (2.*escala));
-  TG = glm::rotate(TG, float(90.*M_PI/180), glm::vec3(-1, 0, 0));
+  TG = glm::rotate(TG, float(-90.*M_PI/180), glm::vec3(0, 1, 0));
   TG = glm::translate(TG, -centreBasePat);
   
   glUniformMatrix4fv (transLoc, 1, GL_FALSE, &TG[0][0]);
@@ -131,7 +156,7 @@ void MyGLWidget::viewTransform ()    // Mètode que has de modificar
     ExamGLWidget::viewTransform();
   else
   {
-    View = glm::lookAt(glm::vec3(0,20,0), glm::vec3(0,0,0), glm::vec3(0,0,1));
+    View = glm::lookAt(glm::vec3(0,2*radiEsc,0), glm::vec3(0,0,0), glm::vec3(1,0,0));
     glUniformMatrix4fv (viewLoc, 1, GL_FALSE, &View[0][0]);
   }
 }
@@ -159,14 +184,17 @@ void MyGLWidget::keyPressEvent(QKeyEvent* event) {
 	}
   case Qt::Key_1: {
       esrota = rotacio[0];
+      emit AsignarPat(1);
     break;
 	}
   case Qt::Key_2: {
       esrota = rotacio[1];
+      emit AsignarPat(2);
     break;
 	}
   case Qt::Key_3: {
       esrota = rotacio[2];
+      emit AsignarPat(3);
     break;
 	}
   case Qt::Key_F: {
@@ -180,20 +208,26 @@ void MyGLWidget::keyPressEvent(QKeyEvent* event) {
       camPlanta = !camPlanta;
       projectTransform();
       viewTransform();
+      if (camPlanta) emit ActivarOrtho();
+      else emit ActivarPers();
     break;
 	}
   case Qt::Key_Right: {
-      int aux = rotacio[0];
-      rotacio[0] = rotacio[1];
-      rotacio[1] = rotacio[2];
-      rotacio[2] = aux;
+      if (!pintaPat) {
+        int aux = rotacio[0];
+        rotacio[0] = rotacio[1];
+        rotacio[1] = rotacio[2];
+        rotacio[2] = aux;
+      }
     break;
 	}
   case Qt::Key_Left: {
-      int aux = rotacio[2];
-      rotacio[2] = rotacio[1];
-      rotacio[1] = rotacio[0];
-      rotacio[0] = aux;
+      if (!pintaPat) {
+        int aux = rotacio[2];
+        rotacio[2] = rotacio[1];
+        rotacio[1] = rotacio[0];
+        rotacio[0] = aux;
+      }
     break;
 	}
   case Qt::Key_R: {

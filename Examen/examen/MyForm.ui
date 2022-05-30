@@ -6,32 +6,77 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>819</width>
-    <height>726</height>
+    <width>619</width>
+    <height>627</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>IDI-Lab</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
-    <widget class="MyGLWidget" name="widget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>50</width>
-       <height>50</height>
-      </size>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="MyGLWidget" name="widget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QRadioButton" name="radioButton">
+         <property name="text">
+          <string>Perspective</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radioButton_2">
+         <property name="text">
+          <string>Orthogonal</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>PatCub</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinBox">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>3</number>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="verticalSpacer">
        <property name="orientation">
@@ -40,7 +85,7 @@
        <property name="sizeHint" stdset="0">
         <size>
          <width>20</width>
-         <height>40</height>
+         <height>20</height>
         </size>
        </property>
       </spacer>
@@ -68,6 +113,25 @@
    <extends>QWidget</extends>
    <header>MyGLWidget.h</header>
    <container>1</container>
+   <slots>
+    <signal>FOVcanviado(int)</signal>
+    <signal>CanvioEscala(int)</signal>
+    <signal>CanvioPsi(int)</signal>
+    <signal>CanvioTheta(int)</signal>
+    <signal>CanviColor()</signal>
+    <signal>ActivarPers()</signal>
+    <signal>ActivarOrtho()</signal>
+    <signal>AsignarPat(int)</signal>
+    <slot>RecogerValor(int)</slot>
+    <slot>activarLego()</slot>
+    <slot>activarOrtho()</slot>
+    <slot>RecogerEscalado(int)</slot>
+    <slot>RecogerTheta(int)</slot>
+    <slot>RecogerPsi(int)</slot>
+    <slot>RecogerRGB(float,float,float)</slot>
+    <slot>activarPers()</slot>
+    <slot>AsignarPatCub(int)</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -79,12 +143,108 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>796</x>
-     <y>596</y>
+     <x>583</x>
+     <y>616</y>
     </hint>
     <hint type="destinationlabel">
-     <x>839</x>
+     <x>618</x>
      <y>529</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>widget</receiver>
+   <slot>activarOrtho()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>300</x>
+     <y>602</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>296</x>
+     <y>530</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>widget</receiver>
+   <slot>activarPers()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>76</x>
+     <y>603</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>78</x>
+     <y>452</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>widget</sender>
+   <signal>ActivarPers()</signal>
+   <receiver>radioButton</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>184</x>
+     <y>484</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>215</x>
+     <y>605</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>widget</sender>
+   <signal>ActivarOrtho()</signal>
+   <receiver>radioButton_2</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>413</x>
+     <y>413</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>407</x>
+     <y>610</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>widget</receiver>
+   <slot>AsignarPatCub(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>556</x>
+     <y>48</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>456</x>
+     <y>48</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>widget</sender>
+   <signal>AsignarPat(int)</signal>
+   <receiver>spinBox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>503</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>555</x>
+     <y>42</y>
     </hint>
    </hints>
   </connection>
