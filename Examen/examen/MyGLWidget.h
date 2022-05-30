@@ -9,6 +9,7 @@ class MyGLWidget:public ExamGLWidget
     ~MyGLWidget();
 
   protected:
+    virtual void initializeGL();
     virtual void paintGL ();
     virtual void keyPressEvent(QKeyEvent* event);
     virtual void modelTransformCub (float escala, float angle);
@@ -18,4 +19,9 @@ class MyGLWidget:public ExamGLWidget
 
   private:
     int printOglError(const char file[], int line, const char func[]);
+    int esrota;
+    bool pintaPat, blanc;
+    int rotacio [3];
+    float angles [3];
+    glm::vec3 colFocus;
 };

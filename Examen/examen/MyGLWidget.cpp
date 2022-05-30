@@ -49,6 +49,24 @@ int MyGLWidget::printOglError(const char file[], int line, const char func[])
 MyGLWidget::~MyGLWidget() {
 }
 
+void MyGLWidget::initializeGL ()
+{
+  ExamGLWidget::initializeGL();
+  pintaPat = false;
+  esrota = 0;
+
+  rotacio[0] = 0;
+  rotacio[1] = 1;
+  rotacio[2] = 2;
+  angles[0] = 0;
+  angles[1] = float(2.*M_PI/3);
+  angles[2] = float(4.*M_PI/3);
+
+  blanc = true;
+  colFocus = glm::vec3 (1, 1, 1);
+  glUniform3fv (colfocusLoc, 1, &colFocus[0]);
+}
+
 void MyGLWidget::paintGL ()   // Mètode que has de modificar
 {
   
@@ -63,22 +81,24 @@ void MyGLWidget::paintGL ()   // Mètode que has de modificar
   glBindVertexArray (VAO_Terra);
   modelTransformTerra ();
   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+  if (pintaPat) {
+    // Pintem el Patricio
+    glBindVertexArray (VAO_Patr);
+    modelTransformPatricio ();
+    glDrawArrays(GL_TRIANGLES, 0, patr.faces().size()*3);
+  }
+  else {
+    // Pintem el cub
+    glBindVertexArray(VAO_Cub);
+    modelTransformCub (2.0/0.5, angles[rotacio[0]]);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 
-  // Pintem el Patricio
-  glBindVertexArray (VAO_Patr);
-  modelTransformPatricio ();
-  glDrawArrays(GL_TRIANGLES, 0, patr.faces().size()*3);
+    modelTransformCub (2.5/0.5, angles[rotacio[1]]);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 
-  // Pintem el cub
-  glBindVertexArray(VAO_Cub);
-  modelTransformCub (2.0/0.5, 0);
-  glDrawArrays(GL_TRIANGLES, 0, 36);
-
-  modelTransformCub (2.5/0.5, 2.*M_PI/3);
-  glDrawArrays(GL_TRIANGLES, 0, 36);
-
-  modelTransformCub (3/0.5, 4.*M_PI/3);
-  glDrawArrays(GL_TRIANGLES, 0, 36);
+    modelTransformCub (3/0.5, angles[rotacio[2]]);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+  }
   
   glBindVertexArray(0);
 }
@@ -96,8 +116,10 @@ void MyGLWidget::modelTransformCub (float escala, float angle)
 void MyGLWidget::modelTransformPatricio ()    // Mètode que has de modificar
 {
   TG = glm::mat4(1.f);
+  TG = glm::rotate(glm::mat4(1.f), angles[rotacio[esrota]], glm::vec3(0, 1, 0));
   TG = glm::translate(TG, glm::vec3 (5, 0, 0));
   TG = glm::scale(TG, glm::vec3 (2.*escala));
+  TG = glm::rotate(TG, float(90.*M_PI/180), glm::vec3(-1, 0, 0));
   TG = glm::translate(TG, -centreBasePat);
   
   glUniformMatrix4fv (transLoc, 1, GL_FALSE, &TG[0][0]);
@@ -109,7 +131,8 @@ void MyGLWidget::viewTransform ()    // Mètode que has de modificar
     ExamGLWidget::viewTransform();
   else
   {
-    // Codi per a la viewMatrix de la Càmera-2
+    View = glm::lookAt(glm::vec3(0,20,0), glm::vec3(0,0,0), glm::vec3(0,0,1));
+    glUniformMatrix4fv (viewLoc, 1, GL_FALSE, &View[0][0]);
   }
 }
 
@@ -119,7 +142,11 @@ void MyGLWidget::projectTransform ()
     ExamGLWidget::projectTransform();
   else
   {
-    // Codi per a la projectMatrix de la Càmera-2
+    glm::mat4 Proj;  // Matriu de projecció
+    if (ra >= 1) Proj = glm::ortho(-ra*radiEsc, ra*radiEsc, -radiEsc, radiEsc, zn, zf);
+    else Proj = glm::ortho(-radiEsc, radiEsc, -radiEsc/ra, radiEsc/ra, zn, zf);
+
+    glUniformMatrix4fv (projLoc, 1, GL_FALSE, &Proj[0][0]);
   }
 }
 
@@ -127,39 +154,50 @@ void MyGLWidget::keyPressEvent(QKeyEvent* event) {
   makeCurrent();
   switch (event->key()) {
   case Qt::Key_V: {
-      // ...
+      pintaPat = !pintaPat;
     break;
 	}
   case Qt::Key_1: {
-      // ...
+      esrota = rotacio[0];
     break;
 	}
   case Qt::Key_2: {
-      // ...
+      esrota = rotacio[1];
     break;
 	}
   case Qt::Key_3: {
-      // ...
+      esrota = rotacio[2];
     break;
 	}
   case Qt::Key_F: {
-      // ...
+      if (blanc) colFocus = glm::vec3 (1, 1, 0);
+      else colFocus = glm::vec3 (1, 1, 1);
+      blanc = !blanc;
+      glUniform3fv (colfocusLoc, 1, &colFocus[0]);
     break;
 	}
   case Qt::Key_C: {
-      // ...
+      camPlanta = !camPlanta;
+      projectTransform();
+      viewTransform();
     break;
 	}
   case Qt::Key_Right: {
-      // ...
+      int aux = rotacio[0];
+      rotacio[0] = rotacio[1];
+      rotacio[1] = rotacio[2];
+      rotacio[2] = aux;
     break;
 	}
   case Qt::Key_Left: {
-      // ...
+      int aux = rotacio[2];
+      rotacio[2] = rotacio[1];
+      rotacio[1] = rotacio[0];
+      rotacio[0] = aux;
     break;
 	}
   case Qt::Key_R: {
-      // ...
+      initializeGL();
     break;
 	}
   default: ExamGLWidget::keyPressEvent(event); break;
