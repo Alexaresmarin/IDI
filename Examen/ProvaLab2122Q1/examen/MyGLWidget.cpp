@@ -82,6 +82,9 @@ void MyGLWidget::initializeGL ()
 
   girAvio = 0;
   altura = 0;
+  centreEsc = glm::vec3(15, 1.25, 12);
+  radiEsc = glm::distance(glm::vec3(30, 2.5, 24), glm::vec3(0))/2.f;
+
   emit ActualitzarAltura(altura);
 
   //viewTransform();
