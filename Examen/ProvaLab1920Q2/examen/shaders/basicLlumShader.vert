@@ -13,7 +13,7 @@ uniform mat4 view;
 uniform mat4 TG;
 
 // Valors per als components que necessitem dels focus de llum
-vec3 colFocus = vec3(0.8, 0.8, 0.8);
+uniform vec3 colFocus;
 vec3 llumAmbient = vec3(0.2, 0.2, 0.2);
 
 uniform vec3 posFocus; 
@@ -57,6 +57,18 @@ vec3 Phong (vec3 NormSCO, vec3 L, vec4 vertSCO)
 
 void main()
 {	
-    fcolor = matdiff;
+    // Passar la posició del vèrtex a SCO
+    vec4 vertSCO = (view * TG * vec4(vertex, 1.0));
+
+    // Direccio llum
+    vec3 L = posFocus - vertSCO.xyz;
+    L = normalize(L);
+
+    // Passar el vector normal a SCO
+    mat3 NormalMatrix = (inverse(transpose(mat3(view * TG))));
+    vec3 NM = NormalMatrix * normal;
+    NM = normalize(NM);
+
+    fcolor = Phong(NM, L, vertSCO);
     gl_Position = proj * view * TG * vec4 (vertex, 1.0);
 }
