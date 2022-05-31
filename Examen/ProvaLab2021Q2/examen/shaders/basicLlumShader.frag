@@ -56,7 +56,12 @@ vec3 Phong (vec3 NormSCO, vec3 L, vec4 vertSCO)
 
 void main()
 {	
-    // Cal modificar aquesta funció per fer el càlcul de l'exercici 3
-    // ...
-    FragColor = vec4(fmatdiff,1);
+    vec3 fcolor;
+    
+    vec3 NM = normalize(normalSCO);
+    vec3 Lcam = normalize(posFocus - vertexSCO.xyz);
+
+    fcolor = Phong(NM, Lcam, vertexSCO);
+
+    FragColor = vec4(fcolor,1);
 }

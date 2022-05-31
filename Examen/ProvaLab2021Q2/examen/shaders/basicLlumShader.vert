@@ -29,9 +29,7 @@ void main()
     fmatshin = matshin;
     mat3 normalMatrix = inverse(transpose(mat3 (view * TG)));
     normalSCO = vec3(normalMatrix * normal);
-
-    // Aquí heu de completar el càlcul que falta
-    // ...
+    vertexSCO = (view * TG * vec4(vertex, 1.0));
 
     gl_Position = proj * view * TG * vec4 (vertex, 1.0);
 }

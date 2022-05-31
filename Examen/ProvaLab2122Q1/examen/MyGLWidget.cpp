@@ -76,14 +76,13 @@ void MyGLWidget::initializeGL ()
 {
   angleX = -0.5;
   angleY = 0.5;
+  
 
   ExamGLWidget::initializeGL();
   emit Desactivar();
 
   girAvio = 0;
   altura = 0;
-  centreEsc = glm::vec3(15, 1.25, 12);
-  radiEsc = glm::distance(glm::vec3(30, 2.5, 24), glm::vec3(0))/2.f;
 
   emit ActualitzarAltura(altura);
 
@@ -93,7 +92,13 @@ void MyGLWidget::initializeGL ()
 
 void MyGLWidget::iniEscena ()
 {
-  ExamGLWidget::iniEscena();
+  creaBuffersPatricio();
+  creaBuffersAvio();
+  creaBuffersHangar();
+  creaBuffersTerra();
+
+  centreEsc = glm::vec3(15, 1.25, 12);
+  radiEsc = glm::distance(glm::vec3(30, 2.5, 24), glm::vec3(0))/2.f;
 }
 
 void MyGLWidget::iniMaterialTerra()
@@ -161,7 +166,7 @@ void MyGLWidget::viewTransform ()
     View = glm::translate(glm::mat4(1.f), glm::vec3(0, 0, -2*radiEsc));
     View = glm::rotate(View, -angleX, glm::vec3(1, 0, 0));
     View = glm::rotate(View, angleY, glm::vec3(0, 1, 0));
-    View = glm::translate(View, -glm::vec3(15, 2.5, 12));
+    View = glm::translate(View, -centreEsc);
 
     glUniformMatrix4fv (viewLoc, 1, GL_FALSE, &View[0][0]);
   }

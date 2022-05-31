@@ -6,26 +6,78 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>819</width>
-    <height>726</height>
+    <width>494</width>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>IDI-Lab</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
-    <widget class="MyGLWidget" name="widget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="MyGLWidget" name="widget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QRadioButton" name="radioButton">
+         <property name="text">
+          <string>Camera 1</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="radioButton_2">
+         <property name="text">
+          <string>Camera 2</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Gir</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDial" name="dial">
+       <property name="maximum">
+        <number>31</number>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="verticalSpacer">
        <property name="orientation">
@@ -62,6 +114,16 @@
    <extends>QWidget</extends>
    <header>MyGLWidget.h</header>
    <container>1</container>
+   <slots>
+    <signal>Desactivar()</signal>
+    <signal>Activar()</signal>
+    <signal>ActualitzarAltura(int)</signal>
+    <signal>ActualitzarGir(int)</signal>
+    <slot>ActivarCamera()</slot>
+    <slot>DesactivarCamera()</slot>
+    <slot>SetAltura(int)</slot>
+    <slot>SetGir(int)</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -73,12 +135,108 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>796</x>
-     <y>596</y>
+     <x>483</x>
+     <y>428</y>
     </hint>
     <hint type="destinationlabel">
-     <x>839</x>
-     <y>529</y>
+     <x>493</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>widget</receiver>
+   <slot>DesactivarCamera()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>415</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>47</x>
+     <y>357</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>widget</receiver>
+   <slot>ActivarCamera()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>152</x>
+     <y>417</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>152</x>
+     <y>340</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>widget</sender>
+   <signal>Desactivar()</signal>
+   <receiver>radioButton</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>87</x>
+     <y>349</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>86</x>
+     <y>416</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>widget</sender>
+   <signal>Activar()</signal>
+   <receiver>radioButton_2</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>132</x>
+     <y>383</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>132</x>
+     <y>418</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>widget</sender>
+   <signal>ActualitzarGir(int)</signal>
+   <receiver>dial</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>270</x>
+     <y>72</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>424</x>
+     <y>78</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dial</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>widget</receiver>
+   <slot>SetGir(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>430</x>
+     <y>113</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>379</x>
+     <y>113</y>
     </hint>
    </hints>
   </connection>
